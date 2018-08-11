@@ -2,10 +2,6 @@
 
 Routine::Routine(Time startTime, Time finishTime) : _startTime(startTime), _finishTime(finishTime)
 {
-	//_nodes.push_back(0);
-	//_nodes.push_back(10);
-	//_nodes.push_back(11);
-	//_nodes.push_back(12);
 }
 
 Routine::~Routine()
@@ -15,9 +11,6 @@ Routine::~Routine()
 
 NPC::NPC()
 {
-	//_homeNode = 0;
-	//Routine* routine1 = new Routine(Date(0, 1, 0), Date(0, 1, 10));
-	//_routines.push_back(routine1);
 }
 
 NPC::~NPC()
@@ -33,9 +26,9 @@ void NPC::PopulateRoutines()
 	Routine* routine4 = new Routine(Time(0, 30, 0, 0), Time(0, 30, 10, 0));
 
 	routine1->_nodes = { 0, 1, 2, 3, 4 };
-	routine2->_nodes = { 4, 5, 6, 7, 8};
+	routine2->_nodes = { 4, 5, 6, 7, 8 };
 	routine3->_nodes = { 8, 18, 28, 38, 48, 58, 68, 69, 79, 89, 99 };
-	routine4->_nodes = { 88, 77, 66, 55, 44, 33, 22, 11, 0};
+	routine4->_nodes = { 88, 77, 66, 55, 44, 33, 22, 11, 0 };
 
 	// we map to finish time then we can use map::lower_bound to get closest?
 	_routinesWeekly[routine1->_startTime.GetTimeSeconds()] = routine1;
