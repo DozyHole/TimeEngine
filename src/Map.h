@@ -12,7 +12,7 @@ public:
 	~Point() {}
 	float	_x;
 	float	_y;
-	int*	_state;
+	int		_state;
 };
 
 class Point3
@@ -81,6 +81,6 @@ protected:
 	micropather::MicroPather* _mp;
 	Point _points[MAP_WIDTH][MAP_HEIGHT];
 public:
-	std::vector<int*> _states;
+	//std::vector<int*> _states;
 };
 

@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "WorldTime.h"
 #include <map>
+#include "Map.h"
 
 class Routine
 {
@@ -12,7 +13,7 @@ public:
 	~Routine();
 	Time						_startTime;
 	Time						_finishTime;
-	std::vector<unsigned int>	_nodes;
+	std::vector<void*>			_nodes;
 };
 
 class NPC
@@ -21,7 +22,7 @@ public:
 	NPC();
 	~NPC();
 	int							GetLocation(UWorldTime &t);
-	void						PopulateRoutines();
+	void						PopulateRoutines(Map* map);
 	void						Draw();
 	unsigned int				_homeNode;
 	std::vector<Routine*>		_routines;  // monday - make 2d for whole week

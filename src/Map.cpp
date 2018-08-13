@@ -11,8 +11,8 @@ CGraph::~CGraph() {}
 float CGraph::LeastCostEstimate(void* stateStart, void* stateEnd)
 {
 	// distance between the two points
-	int iStart			= *(int*)stateStart;
-	int iEnd			= *(int*)stateEnd;
+	int iStart			= (int)stateStart;
+	int iEnd			= (int)stateEnd;
 	Point pStart		= _map->GetPosition(iStart);
 	Point pEnd			= _map->GetPosition(iEnd);
 	float xDiff			= pEnd._x - pStart._x;
@@ -23,7 +23,7 @@ float CGraph::LeastCostEstimate(void* stateStart, void* stateEnd)
 
 void CGraph::AdjacentCost(void* state, std::vector< micropather::StateCost > *adjacent)
 {
-	int index = *(int*)state;
+	int index = (int)state;
 	// up
 	int uIndex = index - MAP_WIDTH;
 	if (uIndex >= 0)
@@ -62,7 +62,7 @@ void CGraph::AdjacentCost(void* state, std::vector< micropather::StateCost > *ad
 	{
 		// we have a right
 		micropather::StateCost sc;
-		int st = *_map->GetPosition(index + 1)._state;
+		//int st = *_map->GetPosition(index + 1)._state;
 		sc.state = (void*)_map->GetPosition(index+1)._state;
 		sc.cost = 1;
 		(*adjacent).push_back(sc);
@@ -91,11 +91,11 @@ Map::Map()
 		for (int x = 0; x < _width; x++)
 		{
 			// micropather - requires state pointers
-			int* state = new int();
-			*state = index;
+			//int* state = new int();
+			//*state = index;
 			//_states.push_back(state);
 			_points[x][y] = Point(x * _spacing + _spacing/2.0f, y * _spacing + _spacing/2.0f);
-			_points[x][y]._state = state;
+			_points[x][y]._state = index;
 			index++;
 		}
 	}
