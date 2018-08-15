@@ -8,11 +8,15 @@ class Point
 {
 public:
 	Point() {};
-	Point(float x, float y) : _x(x), _y(y) {}
+	Point(float x, float y) : _x(x), _y(y) 
+	{
+		_blocked = !(bool)(rand() % 5);
+	}
 	~Point() {}
 	float	_x;
 	float	_y;
 	int		_state;
+	int		_blocked;
 };
 
 class Point3
@@ -71,7 +75,7 @@ public:
 	void DrawNodes();
 	Point GetPosition(int index);
 
-	std::vector<void*> GetPath(int iStart, int iEnd);
+	const std::vector<void*> GetPath(int iStart, int iEnd, float* costOut);
 
 protected:
 	short _width;

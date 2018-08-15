@@ -9,11 +9,13 @@
 class Routine
 {
 public:
-	Routine(Time startTime, Time finishTime);
+	Routine(Map* map, Time startTime, const int startNodeIndex, const int endNodeIndex);
 	~Routine();
+	//void SetPath();
 	Time						_startTime;
-	Time						_finishTime;
+	//Time						_finishTime;
 	std::vector<void*>			_nodes;
+	float						_cost;
 };
 
 class NPC
@@ -25,7 +27,7 @@ public:
 	void						PopulateRoutines(Map* map);
 	void						Draw();
 	unsigned int				_homeNode;
-	std::vector<Routine*>		_routines;  // monday - make 2d for whole week
+	//std::vector<Routine*>		_routines;  // monday - make 2d for whole week
 
 	// work out float value (week) for routine end time
 	std::map<float, Routine*>	_routinesWeekly;

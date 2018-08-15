@@ -30,10 +30,14 @@ void CGraph::AdjacentCost(void* state, std::vector< micropather::StateCost > *ad
 	{
 		// we have an above
 		micropather::StateCost sc;
-		_map->GetPosition(uIndex)._state;
-		sc.state	= (void*)_map->GetPosition(uIndex)._state;
-		sc.cost		= 1;	
-		(*adjacent).push_back(sc);
+		//_map->GetPosition(uIndex)._state;
+		Point p = _map->GetPosition(uIndex);
+		if (!p._blocked)
+		{
+			sc.state = (void*)p._state;
+			sc.cost = 1;
+			(*adjacent).push_back(sc);
+		}
 	}
 
 	// down
@@ -42,9 +46,13 @@ void CGraph::AdjacentCost(void* state, std::vector< micropather::StateCost > *ad
 	{
 		// we have a below
 		micropather::StateCost sc;
-		sc.state = (void*)_map->GetPosition(dIndex)._state;
-		sc.cost = 1;
-		(*adjacent).push_back(sc);
+		Point p = _map->GetPosition(dIndex);
+		if (!p._blocked)
+		{
+			sc.state = (void*)p._state;
+			sc.cost = 1;
+			(*adjacent).push_back(sc);
+		}
 	}
 
 	// left 
@@ -52,9 +60,13 @@ void CGraph::AdjacentCost(void* state, std::vector< micropather::StateCost > *ad
 	{
 		// we have a left
 		micropather::StateCost sc;
-		sc.state = (void*)_map->GetPosition(index-1)._state;
-		sc.cost = 1;
-		(*adjacent).push_back(sc);
+		Point p = _map->GetPosition(index-1);
+		if (!p._blocked)
+		{
+			sc.state = (void*)p._state;
+			sc.cost = 1;
+			(*adjacent).push_back(sc);
+		}
 	}
 
 	// right
@@ -63,9 +75,13 @@ void CGraph::AdjacentCost(void* state, std::vector< micropather::StateCost > *ad
 		// we have a right
 		micropather::StateCost sc;
 		//int st = *_map->GetPosition(index + 1)._state;
-		sc.state = (void*)_map->GetPosition(index+1)._state;
-		sc.cost = 1;
-		(*adjacent).push_back(sc);
+		Point p = _map->GetPosition(index+1);
+		if (!p._blocked)
+		{
+			sc.state = (void*)p._state;
+			sc.cost = 1;
+			(*adjacent).push_back(sc);
+		}
 	}
 }
 
@@ -111,13 +127,13 @@ Map::~Map()
 	//_states.clear();
 }
 
-std::vector<void*> Map::GetPath(int iStart, int iEnd)
+const std::vector<void*> Map::GetPath(int iStart, int iEnd, float *costOut)
 {
 	std::vector<void*> pathOut;
-	float costOut;
+	//float costOut;
 	void* s = (void*)GetPosition(iStart)._state;
 	void* e = (void*)GetPosition(iEnd)._state;
-	int success = _mp->Solve(s, e, &pathOut, &costOut);
+	int success = _mp->Solve(s, e, &pathOut, costOut);
 	micropather::MicroPather::SOLVED;
 	micropather::MicroPather::NO_SOLUTION;
 	micropather::MicroPather::START_END_SAME;
@@ -134,12 +150,19 @@ Point Map::GetPosition(int index)
 
 void Map::DrawNodes()
 {
-	int colour = 255 | 255 << 8 | 255 << 16 | 255 << 24;
+
 	for (int y = 0; y < _height; y++)
 	{
 		for (int x = 0; x < _width; x++)
 		{
-			agk::DrawEllipse(_points[x][y]._x, _points[x][y]._y, 1.0f, 1.0f, colour, colour, 1);
+			int colour = 255 | 255 << 8 | 255 << 16 | 255 << 24;
+			Point p = _points[x][y];
+			if (p._blocked)
+			{
+				colour = 255 | 0 << 8 | 0 << 16 | 255 << 24;
+				agk::DrawEllipse(p._x, p._y, 2.0f, 2.0f, colour, colour, 1);
+			}
+			//agk::DrawEllipse(p._x, p._y, 2.0f, 2.0f, colour, colour, 1);
 		}
 	}
 }
