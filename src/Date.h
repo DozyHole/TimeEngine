@@ -4,6 +4,7 @@
 const int MONTHS_PER_YEAR = 12;
 const int DAYS_PER_MONTH = 28;
 const int DAYS_PER_WEEK = 7;
+const int DAYS_PER_YEAR = DAYS_PER_MONTH * MONTHS_PER_YEAR;
 const int HOURS_PER_DAY = 1;
 const int MINUTES_PER_HOUR = 60;
 const int SECONDS_PER_MINUTE = 60;

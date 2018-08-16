@@ -11,9 +11,7 @@ class Routine
 public:
 	Routine(Map* map, Time startTime, const int startNodeIndex, const int endNodeIndex);
 	~Routine();
-	//void SetPath();
 	Time						_startTime;
-	//Time						_finishTime;
 	std::vector<void*>			_nodes;
 	float						_cost;
 };
@@ -30,8 +28,7 @@ public:
 	//std::vector<Routine*>		_routines;  // monday - make 2d for whole week
 
 	// work out float value (week) for routine end time
-	std::map<float, Routine*>	_routinesWeekly;
-
+	std::vector<std::map<float, Routine*> > _routinesWeekly;
 };
 
 
