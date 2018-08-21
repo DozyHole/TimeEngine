@@ -80,6 +80,7 @@
 		float			_timeHour;
 		float			_timeMinute;
 		float			_timeSecond;
+        Time            _tempTime;
 
 	protected:
 		void			CalculateDate();
