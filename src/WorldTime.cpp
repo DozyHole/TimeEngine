@@ -1,6 +1,5 @@
 //#include "TimeEngine.h"
 #include "WorldTime.h"
-#include "math.h"
 
 UWorldTime::UWorldTime()
 {
@@ -166,7 +165,5 @@ void UWorldTime::CalculateDate()
 	short centiSecond = modf(_t, &wholePart) * 100;
 
 	//_date = Date(_timeYear, (eDay)day, (eMonth)_timeMonth, date, hour, minute, _timeMinute);
-    _tempTime = Time(hour, minute, second, centiSecond);
-    _date = Date(_timeYear, (eMonth)_timeMonth, date, _tempTime);
-	//_date = Date(_timeYear, (eMonth)_timeMonth, date, Time(hour, minute, second, centiSecond));
+	_date = Date(_timeYear, (eMonth)_timeMonth, date, Time(hour, minute, second, centiSecond));
 }

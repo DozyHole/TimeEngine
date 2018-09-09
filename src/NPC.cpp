@@ -81,8 +81,7 @@ int NPC::GetLocation(UWorldTime &t)
 				diff = 0;
 			if (diff >= it->second->_nodes.size())
 				diff = it->second->_nodes.size() - 1;
-			position = (intptr_t)it->second->_nodes.at(diff);
-            //position = (int)it->second->_nodes.at(diff);
+			position = (int)it->second->_nodes.at(diff);
 		}
 	}
 	return position;
