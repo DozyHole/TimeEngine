@@ -11,7 +11,9 @@ app App;
 
 UWorldTime t;
 Map map;
-NPC npc0;
+//NPC npc0;
+const short NPC_COUNT = 500;
+NPC npcs[NPC_COUNT];
 
 
 void app::Begin(void)
@@ -20,8 +22,12 @@ void app::Begin(void)
 	agk::SetClearColor( 151,170,204 ); // light blue
 	agk::SetSyncRate(60,0);
 	agk::SetScissor(0,0,0,0);
-	npc0.PopulateRoutines(&map);
-	
+	//npc0.PopulateRoutines(&map);
+	for (int i = 0; i < NPC_COUNT; i++)
+	{
+		npcs[i].SetHomeNode(map.GetNonBlockedPointRand());
+		npcs[i].PopulateRoutines(&map);
+	}	
 }
 
 int app::Loop (void)
@@ -50,11 +56,21 @@ int app::Loop (void)
 		//agk::DrawEllipse(point._x, point._y, 4, 4, colour, colour, 1);
 	//}
 
-	int pos = npc0.GetLocation(t);
-	Point p = map.GetPosition(pos);
+
+	for (int i = 0; i < NPC_COUNT; i++)
+	{
+		int pos = npcs[i].GetLocation(t);
+		Point p = map.GetPosition(pos);
+		int colour = 255 | 255 << 8 | 255 << 16 | 255 << 24;
+		agk::DrawEllipse(p._x, p._y, 4, 4, colour, colour, 1);
+	}
+
+
+	//int pos = npc0.GetLocation(t);
+	//Point p = map.GetPosition(pos);
 	
-	int colour = 255 | 255 << 8 | 255 << 16 | 255 << 24;
-	agk::DrawEllipse(p._x, p._y, 4, 4, colour, colour, 1);
+	//int colour = 255 | 255 << 8 | 255 << 16 | 255 << 24;
+	//agk::DrawEllipse(p._x, p._y, 4, 4, colour, colour, 1);
 	agk::Print(agk::ScreenFPS());
 	agk::Sync();
 	return 0; // return 1 to close app

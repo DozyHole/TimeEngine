@@ -2,8 +2,14 @@
 
 Routine::Routine(Map* map, Time startTime, const int startNodeIndex, const int endNodeIndex) : _startTime(startTime)
 {
-	map;
-	_nodes = map->GetPath(startNodeIndex, endNodeIndex, &_cost);
+	//while (_nodes.size() == 0)
+	//{
+		_nodes = map->GetPath(startNodeIndex, endNodeIndex, &_cost);
+	//}
+	if (_nodes.size() == 0)
+	{
+		bool error = true;
+	}
 }
 
 Routine::~Routine()
@@ -13,6 +19,7 @@ Routine::~Routine()
 
 NPC::NPC()
 {
+	_homeNode = 0;// homeNode;
 	for (int i = 0; i < DAYS_PER_WEEK; i++)
 	{
 		_routinesWeekly.push_back(std::map<float, Routine*>());
@@ -25,31 +32,53 @@ NPC::~NPC()
 
 }
 
+void NPC::SetHomeNode(int node)
+{
+	_homeNode = node;
+}
+
+void AddRandomRoutine(Map* map, std::vector<std::map<float, Routine*>*> &days, short startLocation, short endLocation)
+{
+	short hourThere = rand() % 30;
+	short hourBack = hourThere + 10;
+	
+	Routine* routineThere = new Routine(map, Time(0, hourThere, 0, 0), startLocation, endLocation);
+	Routine* routineBack = new Routine(map, Time(0, hourBack, 0, 0), endLocation, startLocation);
+	for (auto &d : days)
+	{
+		d->insert(std::pair<float, Routine*>(routineThere->_startTime.GetTimeSeconds(), routineThere));
+		d->insert(std::pair<float, Routine*>(routineBack->_startTime.GetTimeSeconds(), routineBack));
+	}
+}
+
 void NPC::PopulateRoutines(Map* map)
 {
-	Routine* routine1 = new Routine(map, Time(0, 0, 2, 0), 0, 2767);
-	Routine* routine2 = new Routine(map, Time(0, 8, 35, 0), 2767, 12499);
-	Routine* routine3 = new Routine(map, Time(0, 15, 45, 0), 12499, 0);
-
-	Routine* routine4 = new Routine(map, Time(0, 8, 35, 0), 0, 110);
-	Routine* routine5 = new Routine(map, Time(0, 15, 45, 0), 110, 0);
+	//Routine* routine1 = new Routine(map, Time(0, 0, 2, 0), 0, 2767);
+	//Routine* routine2 = new Routine(map, Time(0, 8, 35, 0), 2767, 12499);
+	//Routine* routine3 = new Routine(map, Time(0, 15, 45, 0), 12499, 0);
+	//Routine* routine4 = new Routine(map, Time(0, 8, 35, 0), 0, 110);
+	//Routine* routine5 = new Routine(map, Time(0, 15, 45, 0), 110, 0);
 
 	// we map to finish time then we can use map::lower_bound to get closest?
 	// mon to at - same routines
-	for (int i = 0; i < 6; i++)
+	short startLocation = _homeNode;//rand() % (MAP_SIZE);
+	short endLocation = map->GetNonBlockedPointRand();//rand() % (MAP_SIZE);
+	if (startLocation == endLocation)
 	{
-		std::map<float, Routine*>* day = &_routinesWeekly.at(i);
-		day->insert(std::pair<float, Routine*>(routine1->_startTime.GetTimeSeconds(), routine1));
-		day->insert(std::pair<float, Routine*>(routine2->_startTime.GetTimeSeconds(), routine2));
-		day->insert(std::pair<float, Routine*>(routine3->_startTime.GetTimeSeconds(), routine3));
+		bool stop = true;
 	}
-	// goes to church on sunday :)
-	std::map<float, Routine*>* day = &_routinesWeekly.at(6);
-	day->insert(std::pair<float, Routine*>(routine4->_startTime.GetTimeSeconds(), routine4));
-	day->insert(std::pair<float, Routine*>(routine5->_startTime.GetTimeSeconds(), routine5));
+	//int* weeks;//
+	std::vector<std::map<float, Routine*>*> days;
+	days.push_back(&_routinesWeekly.at(0));
+	days.push_back(&_routinesWeekly.at(1));
+	days.push_back(&_routinesWeekly.at(2));
+	days.push_back(&_routinesWeekly.at(3));
+	days.push_back(&_routinesWeekly.at(4));
+	days.push_back(&_routinesWeekly.at(5));
+
+	AddRandomRoutine(map, days, startLocation, endLocation);
 }
 
-//#include "agk.h""
 int NPC::GetLocation(UWorldTime &t)
 {
 	int position = _homeNode;

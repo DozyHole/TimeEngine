@@ -3,14 +3,14 @@
 
 #define MAP_WIDTH	125
 #define MAP_HEIGHT	100
-#define MAP_SIZE MAP_WIDTH*MAP_HEIGHT
+#define MAP_SIZE (MAP_WIDTH*MAP_HEIGHT)
 class Point
 {
 public:
 	Point() {};
 	Point(float x, float y) : _x(x), _y(y) 
 	{
-		_blocked = !(bool)(rand() % 5);
+		_blocked = !(bool)(rand() % 15);
 	}
 	~Point() {}
 	float	_x;
@@ -76,6 +76,7 @@ public:
 	Point GetPosition(int index);
 
 	const std::vector<void*> GetPath(int iStart, int iEnd, float* costOut);
+	int GetNonBlockedPointRand();
 
 protected:
 	short _width;
@@ -84,6 +85,9 @@ protected:
 
 	micropather::MicroPather* _mp;
 	Point _points[MAP_WIDTH][MAP_HEIGHT];
+	std::vector<int> _vecBlockedPoints;
+	std::vector<int> _vecNonBlockedPoints;
+
 public:
 	//std::vector<int*> _states;
 };

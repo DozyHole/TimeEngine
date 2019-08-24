@@ -112,6 +112,10 @@ Map::Map()
 			//_states.push_back(state);
 			_points[x][y] = Point(x * _spacing + _spacing/2.0f, y * _spacing + _spacing/2.0f);
 			_points[x][y]._state = index;
+
+			// add to blocked and non blocked
+			_points[x][y]._blocked ? _vecBlockedPoints.push_back(index) : _vecNonBlockedPoints.push_back(index);
+
 			index++;
 		}
 	}
@@ -125,6 +129,13 @@ Map::~Map()
 	//	_states.at(i) = nullptr;
 	//}
 	//_states.clear();
+}
+
+int Map::GetNonBlockedPointRand()
+{
+	int count = _vecNonBlockedPoints.size();
+	int index = rand() % count;
+	return _vecNonBlockedPoints.at(index);
 }
 
 const std::vector<void*> Map::GetPath(int iStart, int iEnd, float *costOut)
